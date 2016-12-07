@@ -25,30 +25,29 @@ function getDataFromApi(searchTerm, callback) {
   $.ajax(settings);
 }
 
-
+// if result is channel
 
 // SHOW SEARCH RESULTS
 
 function displayYouTubeSearchData(data) {
-	console.log(data.items[3].id.videoId);
-//  TITLE	
-//	console.log(data.items[0].snippet.title);
-// THUMBNAIL
-//	console.log(data.items[0].snippet.thumbnails.default.url);
+	console.log(data);
+
   var resultElement = '';
   if (data.items.length > 0) {
-//    data.items.forEach(function(snippet) {
+
 	for (var i = 0; i < data.items.length; i++) {
-     resultElement += "<span  id='" + data.items[i].id.videoId + "'> <p>" + data.items[i].snippet.title + '</p>' +
-     				  "<img src='" + data.items[i].snippet.thumbnails.default.url + "' alt='thumbnail of video'></span>";
+		if (data.items[i].id.videoId)
+     resultElement += "<a href='" + YOUTUBE_LINK_URL + data.items[i].id.videoId + "'><p>" + data.items[i].snippet.title + '</p></a>' +
+     				  "<a href='" + YOUTUBE_LINK_URL + data.items[i].id.videoId + "'><img src='" + data.items[i].snippet.thumbnails.default.url + "' alt='thumbnail of video'></a>";
     };
   }
   else {
     resultElement += '<p>No results</p>';
   }
+ 
   
   $('.js-search-results').html(resultElement);
-}
+ }
 
 // create a div around both the <p> and the <img>
 // 
@@ -68,11 +67,3 @@ function watchSubmit() {
 
 $(function(){watchSubmit();});
 
-
-/*$('.js-search-results').on('click', 'span', function (e) {
-    alert(e.this.id);
-});*/
-
-$('span').on('click', function () {
-    console.log(this.id);
-});
